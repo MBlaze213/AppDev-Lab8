@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'lyrics_page.dart';
+import '../log_in/login_screen.dart';
 
-class Playlist extends StatelessWidget {
+class Playlist extends StatefulWidget {
+  const Playlist({super.key});
+  @override
+  State<Playlist> createState() => _PlaylistState();
+}
+
+class _PlaylistState extends State<Playlist> {
   final List<Map<String, String>> songs = [
     {
       'title': 'Kahel Na Langit', 'artist': 'Maki',
@@ -65,101 +74,115 @@ class Playlist extends StatelessWidget {
     },
   ];
 
+  User? firebaseUser;
+  GoogleSignInAccount? googleUser;
+
   @override
-  Widget build(BuildContext context) {
+  void initState(){super.initState();_loadUser();}
+  Future<void> _loadUser() async {
+    firebaseUser = FirebaseAuth.instance.currentUser;
+    googleUser = await GoogleSignIn().signInSilently();
+    setState(() {});
+  }
+
+  void _openAccountDrawer(){
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_){
+        final photoUrl = googleUser?.photoUrl;
+        final name = googleUser?.displayName ?? firebaseUser?.displayName ?? 'Guest User';
+        final email = googleUser?.email ?? firebaseUser?.email ?? 'guest@example.com';
+        return FractionallySizedBox(
+          widthFactor:1,
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(color: Color(0xFFF3E6D8), borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children:[
+                CircleAvatar(radius:40, backgroundImage: photoUrl!=null?NetworkImage(photoUrl):null, child: photoUrl==null?const Icon(Icons.account_circle,size:80,color:Color(0xFFB284BE)):null),
+                const SizedBox(height:12),
+                Text(name, style: const TextStyle(fontSize:18,fontWeight:FontWeight.bold,color:Color(0xFF3B1F1F))),
+                const SizedBox(height:6),
+                Text(email, style: const TextStyle(fontSize:14,color:Color(0xFF4B2E2E))),
+                const SizedBox(height:20),
+                ElevatedButton(
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    await GoogleSignIn().signOut();
+                    if(mounted) Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>const LoginScreen()), (route)=>false);
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFB284BE)),
+                  child: const Text("Logout", style: TextStyle(color: Colors.white))
+                )
+              ]
+            )
+          )
+        );
+      }
+    );
+  }
+
+  @override
+  Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: const Text('KawaiiBeats',
-            style: TextStyle(color: Color(0xFF3B1F1F), fontWeight: FontWeight.bold)),
+        title: const Text('KawaiiBeats', style: TextStyle(color: Color(0xFF3B1F1F), fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,
-        leading: const Icon(Icons.music_note_rounded, color: Color(0xFF4B2E2E)),
-        elevation: 0,
+        leading: const Icon(Icons.music_note_rounded,color: Color(0xFF4B2E2E)),
+        actions:[
+          IconButton(
+            icon: CircleAvatar(
+              backgroundColor: const Color(0xFFB284BE),
+              backgroundImage: googleUser?.photoUrl!=null?NetworkImage(googleUser!.photoUrl!):null,
+              child: googleUser?.photoUrl==null?const Icon(Icons.account_circle,color: Colors.white):null,
+            ),
+            onPressed: _openAccountDrawer
+          ),
+          const SizedBox(width:12)
+        ],
+        elevation:0
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: [
-          const Image(
-            image: AssetImage("assets/image/download.jpg"),
-            fit: BoxFit.cover,
-          ),
-          Container(
-            color: const Color(0xCCF3E6D8),
-          ),
+        children:[
+          const Image(image: AssetImage("assets/image/download.jpg"), fit: BoxFit.cover),
+          Container(color: const Color(0xCCF3E6D8)),
           ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical:20,horizontal:12),
             itemCount: songs.length,
-            itemBuilder: (context, index) {
+            itemBuilder:(context,index){
               final song = songs[index];
               return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => LyricsPage(
-                        songs: songs,
-                        currentIndex: index,
-                      ),
-                    ),
-                  );
-                },
+                onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>LyricsPage(songs:songs,currentIndex:index))),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  margin: const EdgeInsets.symmetric(vertical:8),
                   padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFE0D6), 
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: const [
-                      BoxShadow(
-                          color: Colors.black26, blurRadius: 6, offset: Offset(2, 2)),
-                    ],
-                    border: Border.all(color: const Color(0xFFFFC1CC), width: 1.2),
-                  ),
-                  child:Row(
-                    children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          image: DecorationImage(
-                            image: AssetImage(song['albumCover']!),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                  decoration: BoxDecoration(color: const Color(0xFFFFE0D6), borderRadius: BorderRadius.circular(16), boxShadow: const [BoxShadow(color:Colors.black26,blurRadius:6,offset: Offset(2,2))], border: Border.all(color: const Color(0xFFFFC1CC),width:1.2)),
+                  child: Row(
+                    children:[
+                      Container(width:50,height:50, decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), image: DecorationImage(image: AssetImage(song['albumCover']!),fit: BoxFit.cover))),
+                      const SizedBox(width:12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              song['title']!,
-                              style: const TextStyle(
-                                color: Color(0xFF3B1F1F),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Text(
-                              song['artist']!,
-                              style: const TextStyle(
-                                color: Color(0xFF4B2E2E),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
+                          children:[
+                            Text(song['title']!, style: const TextStyle(color: Color(0xFF3B1F1F),fontSize:15,fontWeight:FontWeight.w500)),
+                            Text(song['artist']!, style: const TextStyle(color: Color(0xFF4B2E2E),fontSize:12,fontWeight:FontWeight.w400)),
+                          ]
+                        )
                       ),
-                      const Icon(Icons.play_arrow, color: Color(0xFF4B2E2E), size: 28),
-                    ],
-                  ),
-                ),
+                      const Icon(Icons.play_arrow,color: Color(0xFF4B2E2E),size:28)
+                    ]
+                  )
+                )
               );
-            },
-          ),
-        ],
-      ),
+            }
+          )
+        ]
+      )
     );
   }
 }
