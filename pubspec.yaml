@@ -36,6 +36,10 @@ dependencies:
   cloud_firestore: ^5.0.0
   google_sign_in: ^6.1.0
   
+  image_picker: ^1.1.1
+  file_picker: ^8.0.0
+
+  path_provider: ^2.0.17
   mailer: ^6.1.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -68,6 +72,7 @@ flutter:
      - assets/music/
      - assets/lyrics/
      - assets/image/
+     - assets/data/songs.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
