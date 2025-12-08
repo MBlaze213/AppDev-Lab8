@@ -4,57 +4,64 @@ import 'lyrics_page.dart';
 class Playlist extends StatelessWidget {
   final List<Map<String, String>> songs = [
     {
-      'title': 'Song 1 - Maki - kahel na langit (Lyrics)',
-      'path': 'assets/music/kahel na langit.mp3',
-      'lyrics': 'assets/lyrics/kahel na langit.txt',
+      'title': 'Kahel Na Langit', 'artist': 'Maki',
+      'path': 'assets/music/kahel_na_langit.mp3',
+      'lyrics': 'assets/lyrics/kahel_na_langit.txt',
+      'albumCover':'assets/image/kahel_na_langit.jpg',
     },
     {
-      'title': 'Song 2 -Black Eyed Peas - I Gotta Feeling ',
-      'path': 'assets/music/Black Eyed Peas - I Gotta Feeling (Lyrics).mp3',
+      'title': 'I Gotta Feeling ', 'artist': 'Black Eyed Peas ',
+      'path': 'assets/music/i_gotta_feeling.mp3',
       'lyrics': 'assets/lyrics/i_gotta_feeling.txt',
+      'albumCover':'assets/image/i_gotta_feeling.jpg',
     },
     {
-      'title': 'Song  3-Jroa - Treat You Better',
-      'path':
-          'assets/music/Jroa - Treat You Better (Lyrics) [TikTok Song] Ilang Beses Mo Na Sinabi Sakin Na Masaya.mp3',
-      'lyrics': 'assets/lyrics/jroa_treat_you_better.txt',
+      'title': 'Treat You Better', 'artist': 'Shawn Mendes',
+      'path':'assets/music/treat_you_better.mp3',
+      'lyrics': 'assets/lyrics/treat_you_better.txt',
+      'albumCover':'assets/image/treat_you_better.jpg',
     },
     {
-      'title': 'Song 4 -  James Arthur - Say You Won_t Let Go',
-      'path': 'assets/music/James Arthur - Say You Won_t Let Go (Lyrics).mp3',
-      'lyrics': 'assets/lyrics/Say You Won_t Let Go.txt',
+      'title': 'Say You Wont Let Go', 'artist': 'James Arthur',
+      'path': 'assets/music/say_you_wont_let_go.mp3',
+      'lyrics': 'assets/lyrics/say_you_wont_let_go.txt',
+      'albumCover':'assets/image/say_you_wont_let_go.jpg',
     },
     {
-      'title': 'Song 5 - Khalid - Young Dumb & Broke',
-      'path': 'assets/music/Khalid - Young Dumb & Broke (Lyrics).mp3',
-      'lyrics': 'assets/lyrics/Khalid - Young Dumb & Broke.txt',
+      'title': 'Young Dumb & Broke', 'artist': 'Khalid',
+      'path': 'assets/music/young_dumb.mp3',
+      'lyrics': 'assets/lyrics/young_dumb.txt',
+      'albumCover':'assets/image/young_dumb.jpg',
     },
     {
-      'title': 'Song 6 -LANY - ILYSB',
-      'path': 'assets/music/LANY - ILYSB (Official Lyric).mp3',
-      'lyrics': 'assets/lyrics/LANY - ILYSB (Official Lyric).txt',
+      'title': 'ILYSB', 'artist': 'LANY',
+      'path': 'assets/music/ilysb.mp3',
+      'lyrics': 'assets/lyrics/ilysb.txt',
+      'albumCover':'assets/image/ilysb.jpg',
     },
     {
-      'title': 'Song 7 - One Direction - Drag Me Down',
-      'path': 'assets/music/One Direction - Drag Me Down (Official Video).mp3',
-      'lyrics': 'assets/lyrics/One Direction - Drag Me Down.txt',
+      'title': 'Drag Me Down', 'artist': 'One Direction',
+      'path': 'assets/music/drag_me_down.mp3',
+      'lyrics': 'assets/lyrics/drag_me_down.txt',
+      'albumCover':'assets/image/drag_me_down.jpg',
     },
     {
-      'title': 'Song 8 -Shawn Mendes - Stitches',
-      'path':
-          'assets/music/Shawn Mendes - Stitches (Lyrics)  The Chainsmokers, Justin Bieber, Ed Sheeran  Mixed Lyrics.mp3',
-      'lyrics': 'assets/lyrics/Shawn Mendes - Stitches (Lyrics).txt',
+      'title': 'Stitches', 'artist': 'Shawn Mendes',
+      'path':'assets/music/stitches.mp3',
+      'lyrics': 'assets/lyrics/stitches.txt',
+      'albumCover':'assets/image/stitches.jpg',
     },
     {
-      'title': 'Song 9 -Together - Ne-Yo',
-      'path': 'assets/music/Together - Ne-Yo (Lyrics).mp3',
-      'lyrics': 'assets/lyrics/Together - Ne-Yo.txt',
+      'title': 'Together', 'artist': 'Ne-Yo',
+      'path': 'assets/music/together.mp3',
+      'lyrics': 'assets/lyrics/together.txt',
+      'albumCover':'assets/image/together.jpg',
     },
     {
-      'title': 'Song 10 - The Script - The Man Who Can_t Be Moved',
-      'path':
-          'assets/music/The Script - The Man Who Can_t Be Moved (Lyrics).mp3',
-      'lyrics': 'assets/lyrics/The Script - The Man Who Can_t Be Moved.txt',
+      'title': 'The Man Who Cant Be Moved','artist': 'The Script',
+      'path':'assets/music/the_man_who_cant_be_moved.mp3',
+      'lyrics': 'assets/lyrics/the_man_who_cant_be_moved.txt',
+      'albumCover':'assets/image/the_man_who_cant_be_moved.jpg',
     },
   ];
 
@@ -62,56 +69,96 @@ class Playlist extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('KawaiiBeats', style: TextStyle(color: Colors.white)),
-        backgroundColor: const Color.fromARGB(255, 56, 0, 66),
-        leading: const Icon(
-          Icons.music_note_rounded,
-          color: Color.fromARGB(255, 12, 133, 48),
-        ),
+        title: const Text('KawaiiBeats',
+            style: TextStyle(color: Color(0xFF3B1F1F), fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.transparent,
+        leading: const Icon(Icons.music_note_rounded, color: Color(0xFF4B2E2E)),
+        elevation: 0,
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          const Image(
             image: AssetImage("assets/image/download.jpg"),
+            fit: BoxFit.cover,
           ),
-        ),
-        child: ListView.builder(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          itemCount: songs.length,
-          itemBuilder: (context, index) {
-            final song = songs[index];
-            return Card(
-              color: Colors.black54,
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: ListTile(
-                leading: const Icon(
-                  Icons.music_note_rounded,
-                  color: Color.fromARGB(255, 12, 133, 48),
-                ),
-                title: Text(
-                  song['title']!,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                trailing: const Icon(Icons.play_arrow, color: Colors.white),
+          Container(
+            color: const Color(0xCCF3E6D8),
+          ),
+          ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+            itemCount: songs.length,
+            itemBuilder: (context, index) {
+              final song = songs[index];
+              return GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (_) => LyricsPage(
-                        songTitle: song['title']!,
-                        songPath: song['path']!,
-                        lyricsPath: song['lyrics']!,
+                        songs: songs,
+                        currentIndex: index,
                       ),
                     ),
                   );
                 },
-              ),
-            );
-          },
-        ),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFE0D6), 
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black26, blurRadius: 6, offset: Offset(2, 2)),
+                    ],
+                    border: Border.all(color: const Color(0xFFFFC1CC), width: 1.2),
+                  ),
+                  child:Row(
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          image: DecorationImage(
+                            image: AssetImage(song['albumCover']!),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              song['title']!,
+                              style: const TextStyle(
+                                color: Color(0xFF3B1F1F),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              song['artist']!,
+                              style: const TextStyle(
+                                color: Color(0xFF4B2E2E),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.play_arrow, color: Color(0xFF4B2E2E), size: 28),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
