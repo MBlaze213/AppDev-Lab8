@@ -278,6 +278,8 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: modernField("Password"),
             ),
             const SizedBox(height: 28),
+
+            // Login button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -300,11 +302,42 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
               ),
             ),
+            const SizedBox(height: 16),
+
+            // Create Account button (prominent)
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SignUpScreen()),
+                ),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  side: const BorderSide(color: Color(0xFFB76E79), width: 1.4),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  backgroundColor: const Color(0xFFF4E1D2),
+                ),
+                child: const Text(
+                  "Create an Account",
+                  style: TextStyle(
+                    color: Color(0xFF4B2E2B),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+
             const SizedBox(height: 20),
             const Center(
               child: Text("— or —", style: TextStyle(color: Color(0xFF7A4C41))),
             ),
             const SizedBox(height: 20),
+
+            // Google sign-in button
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
